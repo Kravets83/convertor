@@ -1,6 +1,6 @@
+import json
 import os
 import time as ti
-import json
 
 import pyautogui as pg
 import pyperclip
@@ -19,25 +19,27 @@ def open_prog():
 
 
 def enter_x_y():
+    
     open_prog()
     for file in os.listdir(path_in):
         name = f"{path_out}\\{file[:-4] + 'NEW.txt'}"
         input_file = f"{path_in}\\{file}"
         if file.endswith(".txt"):
-            list_data = txt_to_data(input_file = input_file)
+            list_data = txt_to_data(input_file=input_file)
             write_file(list_data=list_data, file_name=name)
         elif file.endswith(".json"):
-            list_data = json_to_data(input_file = input_file)
+            list_data = json_to_data(input_file=input_file)
             write_file(list_data=list_data, file_name=name)
     pg.hotkey('alt', 'f4')
     os.startfile(".\ВИХІД")
+
 
 def json_to_data(input_file: str) -> list:
     list_data = []
     with open(input_file, 'r') as input_file_data:
         list_coord = json.load(input_file_data)['coordinates'][0][0]
         for i in list_coord:
-            list_data.append(f'{list_coord.index(i) + 1001},{i[0]},{i[1]},')
+            list_data.append(f'{list_coord.index(i) + 1001},{i[1]},{i[0]},')
     return list_data
 
 
@@ -47,11 +49,10 @@ def txt_to_data(input_file: str) -> list:
         return list_data
 
 
-def write_file(list_data:list,file_name:str):
+def write_file(list_data: list, file_name: str):
     with open(file_name, 'w') as write_file:
         new_piket = convertor_out_prog(list_data)
         write_file.write("".join(new_piket))
-
 
 
 def convertor_out_prog(data: list, ) -> list:
